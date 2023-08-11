@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import SignIn from "./screens/SignIn";
 
 export default function App() {
-  return <SignIn />;
+  return <MainPage />;
 }
 
 const styles = StyleSheet.create({});

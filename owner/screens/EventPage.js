@@ -10,7 +10,6 @@ import {
   Image,
 } from "react-native";
 import SubMenu from "../components/event/SubMenu";
-import coffee from "./../assets/coffee.png";
 
 const EventPage = () => {
   const [subMenuOpen, setSubMenuOpen] = useState(false);
@@ -19,6 +18,7 @@ const EventPage = () => {
   };
   return (
     <View style={styles.wrapper}>
+      <Text style={styles.title}>이벤트/공지</Text>
       <View style={styles.EventSection}>
         <View style={styles.EventComponent}>
           <View
@@ -46,17 +46,22 @@ export default EventPage;
 
 const styles = StyleSheet.create({
   wrapper: {
-    flex: 1,
     flexDirection: "column",
     alignItems: "center",
-    // justifyContent: "center",
-    marginTop: 100,
+    justifyContent: "center",
+    marginTop: 80,
+  },
+  title: {
+    color: "#000",
+    textAlign: "center",
+    fontSize: 20,
+    fontStyle: "normal",
   },
   EventSection: {
     flexDirection: "column",
     justifyContent: "center",
     alignContent: "center",
-    // marginLeft: 30,
+    marginTop: 40,
     marginBottom: 23,
   },
 
@@ -69,14 +74,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#6E85B7",
     marginBottom: 40,
     paddingBottom: 10,
-  },
-  title: {
-    color: "#000",
-    textAlign: "center",
-    fontSize: 12,
-    fontStyle: "normal",
-    fontWeight: "700",
-    flexGrow: 1,
   },
   date: {
     color: "#ffffff",

@@ -5,6 +5,7 @@ import SignUp from "./screens/SignUp";
 import MainPage from "./screens/MainPage";
 import FindPw from "./screens/FindPw";
 import WritingEventPage from "./screens/WritingEventPage";
+import EventPage from "./screens/EventPage";
 import { DefaultTheme } from "@react-navigation/native";
 
 import { createStackNavigator } from "@react-navigation/stack";
@@ -16,11 +17,12 @@ export default function App() {
     <NavigationContainer style={styles.container}>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName="WritingEventPage"
+        initialRouteName="EventPage"
       >
         <Stack.Screen name="MainPage" component={MainPage} />
         <Stack.Screen name="FindPw" component={FindPw} />
         <Stack.Screen name="WritingEventPage" component={WritingEventPage} />
+        <Stack.Screen name="EventPage" component={EventPage} />
         <Stack.Screen name="SignUp" component={SignUp} />
       </Stack.Navigator>
     </NavigationContainer>

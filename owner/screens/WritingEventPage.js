@@ -10,7 +10,7 @@ import {
   Image,
 } from "react-native";
 
-const EventPage = () => {
+const WritingEventPage = () => {
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>이벤트/공지</Text>
@@ -33,7 +33,7 @@ const EventPage = () => {
   );
 };
 
-export default EventPage;
+export default WritingEventPage;
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,

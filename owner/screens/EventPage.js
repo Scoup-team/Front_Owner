@@ -60,18 +60,11 @@ const EventPage = () => {
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>이벤트/공지</Text>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "flex-end",
-          justifyContent: "flex-end",
-        }}
-      >
+      <View style={styles.btn}>
         <Pressable onPress={() => navigation.navigate("WritingEventPage")}>
           <Image source={writing} style={styles.writing} />
         </Pressable>
       </View>
-
       <View style={styles.EventSection}>
         {eventData && eventData.length > 0 ? (
           eventData.map((data) => (
@@ -117,7 +110,7 @@ const styles = StyleSheet.create({
   wrapper: {
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     marginTop: 80,
   },
   title: {
@@ -130,7 +123,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignContent: "center",
-    marginTop: 40,
+    marginTop: 70,
     marginBottom: 23,
   },
 
@@ -186,5 +179,11 @@ const styles = StyleSheet.create({
   writing: {
     width: 25,
     height: 25,
+  },
+  btn: {
+    marginTop: 30,
+    position: "absolute",
+    top: 20,
+    right: 30,
   },
 });

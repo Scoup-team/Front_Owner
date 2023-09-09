@@ -8,8 +8,10 @@ import {
   StyleSheet,
   TextInput,
   Image,
+  Alert,
 } from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
+import { patchEvent } from "../api/event";
 
 const EditingEventPage = () => {
   const navigation = useNavigation();
@@ -18,6 +20,21 @@ const EditingEventPage = () => {
   const { eventId, content } = route.params;
 
   const [eventContent, setEventContent] = useState(content);
+
+  const PatchEventData = async (eventId, content) => {
+    try {
+      const patchData = await patchEvent(eventId, content);
+      console.log(patchData.message);
+      Alert.alert("이벤트/공지 수정에 성공했습니다.");
+      navigation.navigate("EventPage");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleEditButtonPress = (eventId, eventContent) => {
+    PatchEventData(eventId, eventContent);
+  };
 
   return (
     <View style={styles.wrapper}>
@@ -37,7 +54,10 @@ const EditingEventPage = () => {
         >
           <Text style={styles.text}>취 소</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.submitBtn}>
+        <TouchableOpacity
+          style={styles.submitBtn}
+          onPress={() => handleEditButtonPress(eventId, eventContent)}
+        >
           <Text style={{ ...styles.text, color: "#ffffff" }}>수 정</Text>
         </TouchableOpacity>
       </View>

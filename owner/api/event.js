@@ -44,7 +44,10 @@ export const deleteEvent = async (eventId) => {
 //이벤트를 수정하는 API
 export const patchEvent = async (eventId, content) => {
   try {
-    const res = await client.patch(`admin/mypage/event/${eventId}`, content);
+    const config = {
+      content: content,
+    };
+    const res = await client.patch(`admin/mypage/event/${eventId}`, config);
     return res.data;
   } catch (err) {
     throw err;

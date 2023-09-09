@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -9,31 +9,43 @@ import {
   TextInput,
   Image,
 } from "react-native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 
-const WritingEventPage = () => {
+const EditingEventPage = () => {
+  const navigation = useNavigation();
+
+  const route = useRoute();
+  const { eventId, content } = route.params;
+
+  const [eventContent, setEventContent] = useState(content);
+
   return (
     <View style={styles.wrapper}>
-      <Text style={styles.title}>이벤트/공지</Text>
+      <Text style={styles.title}>이벤트/공지 수정</Text>
       <View style={styles.textbox}>
         <TextInput
           multiline={true}
           style={styles.input}
-          placeholder="새 글을 입력하세요."
-        ></TextInput>
+          value={eventContent}
+          onChangeText={(text) => setEventContent(text)}
+        />
       </View>
       <View style={styles.btnbox}>
-        <TouchableOpacity style={styles.cancleBtn}>
+        <TouchableOpacity
+          style={styles.cancleBtn}
+          onPress={() => navigation.pop()}
+        >
           <Text style={styles.text}>취 소</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.submitBtn}>
-          <Text style={{ ...styles.text, color: "#ffffff" }}>등 록</Text>
+          <Text style={{ ...styles.text, color: "#ffffff" }}>수 정</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-export default WritingEventPage;
+export default EditingEventPage;
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,

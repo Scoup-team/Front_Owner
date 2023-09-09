@@ -9,12 +9,19 @@ import {
   TextInput,
   Image,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const EventPage = () => {
-  const [subMenuOpen, setSubMenuOpen] = useState(false);
-  const subMenuClick = () => {
-    setSubMenuOpen(!subMenuOpen);
+  const navigation = useNavigation();
+
+  const eventId = 123;
+  const content =
+    "오늘 개인사정으로 휴무입니다. 다음주부터 정상적으로 운영합니다.";
+
+  const handleEditButtonPress = () => {
+    navigation.navigate("EditingEventPage", { eventId, content });
   };
+
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>이벤트/공지</Text>
@@ -32,7 +39,10 @@ const EventPage = () => {
               justifyContent: "space-evenly",
             }}
           >
-            <TouchableOpacity style={styles.Btn}>
+            <TouchableOpacity
+              style={styles.Btn}
+              onPress={handleEditButtonPress}
+            >
               <Text style={{ ...styles.text, color: "#ffffff" }}>수정</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.Btn}>

@@ -24,6 +24,7 @@ export const addEvent = async (cafeId, content) => {
       },
     };
     const res = await client.post(`admin/mypage/event`, content, config);
+    console.log(res);
     return res.data;
   } catch (err) {
     throw err;

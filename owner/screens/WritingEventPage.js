@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,11 +8,31 @@ import {
   StyleSheet,
   TextInput,
   Image,
+  Alert,
 } from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
+import { addEvent } from "../api/event";
 
 const WritingEventPage = () => {
+  const [eventData, setEventData] = useState([]);
+  const [content, setContent] = useState(""); // 입력된 내용을 저장할 상태 추가
+  const cafeId = 1;
   const navigation = useNavigation();
+
+  const addEventData = async (cafeId, content) => {
+    try {
+      const addData = await addEvent(cafeId, content);
+      console.log(addData.message);
+      Alert.alert("글쓰기에 성공했습니다.");
+      navigation.navigate("EventPage");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleSubmitButtonPress = (cafeId) => {
+    addEventData(cafeId, content);
+  };
 
   return (
     <View style={styles.wrapper}>
@@ -21,7 +41,9 @@ const WritingEventPage = () => {
         <TextInput
           multiline={true}
           style={styles.input}
+          value={content}
           placeholder="새 글을 입력하세요."
+          onChangeText={(text) => setContent(text)}
         ></TextInput>
       </View>
       <View style={styles.btnbox}>
@@ -31,7 +53,10 @@ const WritingEventPage = () => {
         >
           <Text style={styles.text}>취 소</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.submitBtn}>
+        <TouchableOpacity
+          style={styles.submitBtn}
+          onPress={() => handleSubmitButtonPress(cafeId)}
+        >
           <Text style={{ ...styles.text, color: "#ffffff" }}>등 록</Text>
         </TouchableOpacity>
       </View>

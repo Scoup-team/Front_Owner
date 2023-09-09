@@ -10,13 +10,14 @@ import {
   Image,
   Alert,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import writing from "../assets/writing.png";
 
 import { getEvent, deleteEvent } from "../api/event";
 
 const EventPage = () => {
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
 
   const cafeId = 1;
 
@@ -24,7 +25,7 @@ const EventPage = () => {
 
   useEffect(() => {
     getEventData();
-  }, []);
+  }, [isFocused]);
 
   const getEventData = async () => {
     try {

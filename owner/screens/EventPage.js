@@ -8,10 +8,11 @@ import {
   StyleSheet,
   TextInput,
   Image,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import { getEvent } from "../api/event";
+import { getEvent, deleteEvent } from "../api/event";
 
 const EventPage = () => {
   const navigation = useNavigation();
@@ -37,10 +38,22 @@ const EventPage = () => {
     }
   };
 
+  const deleteEventData = async (eventId) => {
+    try {
+      const deleteData = await deleteEvent(eventId);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleEditButtonPress = (eventId, content) => {
-    console.log("수정 눌림");
-    console.log(eventId, content);
     navigation.navigate("EditingEventPage", { eventId, content });
+  };
+
+  const handleDeleteButtonPress = (eventId) => {
+    deleteEventData(eventId);
+    Alert.alert("이벤트/공지 삭제에 성공했습니다.");
+    getEventData();
   };
 
   return (
@@ -68,7 +81,10 @@ const EventPage = () => {
                 >
                   <Text style={{ ...styles.text, color: "#ffffff" }}>수정</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.Btn}>
+                <TouchableOpacity
+                  style={styles.Btn}
+                  onPress={() => handleDeleteButtonPress(data.eventId)}
+                >
                   <Text style={{ ...styles.text, color: "#ffffff" }}>삭제</Text>
                 </TouchableOpacity>
               </View>

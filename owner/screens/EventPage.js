@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -11,12 +11,34 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
+import { getEvent } from "../api/event";
+
 const EventPage = () => {
   const navigation = useNavigation();
 
   const eventId = 123;
+  const cafeId = 1;
   const content =
     "오늘 개인사정으로 휴무입니다. 다음주부터 정상적으로 운영합니다.";
+  const [eventData, setEventData] = useState([]);
+
+  useEffect(() => {
+    getEventData();
+  }, []);
+
+  const getEventData = async () => {
+    try {
+      const getData = await getEvent(cafeId);
+      const formattedData = getData.data.map((data) => ({
+        ...data,
+        createdAt: data.createdAt.split("T")[0],
+      }));
+      setEventData(formattedData);
+      console.log("eventData", eventData);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleEditButtonPress = () => {
     navigation.navigate("EditingEventPage", { eventId, content });

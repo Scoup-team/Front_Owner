@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,35 +8,98 @@ import {
   StyleSheet,
   TextInput,
   Image,
+  Alert,
 } from "react-native";
-import SubMenu from "../components/event/SubMenu";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
+import writing from "../assets/writing.png";
+
+import { getEvent, deleteEvent } from "../api/event";
 
 const EventPage = () => {
-  const [subMenuOpen, setSubMenuOpen] = useState(false);
-  const subMenuClick = () => {
-    setSubMenuOpen(!subMenuOpen);
+  const navigation = useNavigation();
+  const isFocused = useIsFocused();
+
+  const cafeId = 1;
+
+  const [eventData, setEventData] = useState([]);
+
+  useEffect(() => {
+    getEventData();
+  }, [isFocused]);
+
+  const getEventData = async () => {
+    try {
+      const getData = await getEvent(cafeId);
+      const formattedData = getData.data.map((data) => ({
+        ...data,
+        createdAt: data.createdAt.split("T")[0],
+      }));
+      setEventData(formattedData);
+    } catch (err) {
+      console.log(err);
+    }
   };
+
+  const deleteEventData = async (eventId) => {
+    try {
+      const deleteData = await deleteEvent(eventId);
+      Alert.alert("이벤트/공지 삭제에 성공했습니다.");
+      getEventData();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleEditButtonPress = (eventId, content) => {
+    navigation.navigate("EditingEventPage", { eventId, content });
+  };
+
+  const handleDeleteButtonPress = (eventId) => {
+    deleteEventData(eventId);
+  };
+
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>이벤트/공지</Text>
+      <View style={styles.btn}>
+        <Pressable onPress={() => navigation.navigate("WritingEventPage")}>
+          <Image source={writing} style={styles.writing} />
+        </Pressable>
+      </View>
       <View style={styles.EventSection}>
-        <View style={styles.EventComponent}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
-            <Text style={styles.date}>2023-06-13</Text>
-            <TouchableOpacity onPress={subMenuClick}>
-              <Text style={styles.subMenu}>...</Text>
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.content}>
-            오늘 개인사정으로로 휴무입니다. 다음주부터 정상적으로 운영합니다.
-          </Text>
-          {subMenuOpen ? <SubMenu /> : null}
-        </View>
+        {eventData && eventData.length > 0 ? (
+          eventData.map((data) => (
+            <View style={styles.EventComponent} key={data.eventId}>
+              <View>
+                <Text style={styles.date}>{data.createdAt}</Text>
+              </View>
+              <Text style={styles.content}>{data.content}</Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-evenly",
+                }}
+              >
+                <TouchableOpacity
+                  style={styles.Btn}
+                  onPress={() =>
+                    handleEditButtonPress(data.eventId, data.content)
+                  }
+                >
+                  <Text style={{ ...styles.text, color: "#ffffff" }}>수정</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.Btn}
+                  onPress={() => handleDeleteButtonPress(data.eventId)}
+                >
+                  <Text style={{ ...styles.text, color: "#ffffff" }}>삭제</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ))
+        ) : (
+          <View />
+        )}
       </View>
     </View>
   );
@@ -48,7 +111,7 @@ const styles = StyleSheet.create({
   wrapper: {
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     marginTop: 80,
   },
   title: {
@@ -61,14 +124,14 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignContent: "center",
-    marginTop: 40,
+    marginTop: 70,
     marginBottom: 23,
   },
 
   EventComponent: {
     flexDirection: "column",
     width: 353,
-    height: 141,
+    minHeight: 151,
     justifyContent: "center",
     borderRadius: 8,
     backgroundColor: "#6E85B7",
@@ -78,7 +141,7 @@ const styles = StyleSheet.create({
   date: {
     color: "#ffffff",
     textAlign: "left",
-    fontSize: 10,
+    fontSize: 14,
     fontStyle: "normal",
     fontWeight: "600",
     letterSpacing: 0.2,
@@ -101,5 +164,27 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     marginRight: 15,
     marginTop: 5,
+  },
+  Btn: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 60,
+    height: 30,
+    borderRadius: 7,
+    borderWidth: 1.5,
+    borderColor: "#000000",
+    backgroundColor: "#1D2D4F",
+    justifyContent: "center",
+    color: "#FFFFFF",
+  },
+  writing: {
+    width: 25,
+    height: 25,
+  },
+  btn: {
+    marginTop: 30,
+    position: "absolute",
+    top: 20,
+    right: 30,
   },
 });

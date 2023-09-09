@@ -5,6 +5,7 @@ import SignUp from "./screens/SignUp";
 import MainPage from "./screens/MainPage";
 import FindPw from "./screens/FindPw";
 import WritingEventPage from "./screens/WritingEventPage";
+import EditingEventPage from "./screens/EditingEventPage";
 import EventPage from "./screens/EventPage";
 import ShopInformation from "./screens/ShopInformation";
 import StoreRegister from "./screens/StoreRegister";
@@ -24,7 +25,12 @@ export default function App() {
         <Stack.Screen name="MainPage" component={MainPage} />
         <Stack.Screen name="FindPw" component={FindPw} />
         <Stack.Screen name="WritingEventPage" component={WritingEventPage} />
-        <Stack.Screen name="EventPage" component={EventPage} />
+        <Stack.Screen name="EditingEventPage" component={EditingEventPage} />
+        <Stack.Screen
+          name="EventPage"
+          component={EventPage}
+          options={{ unmountOnBlur: true }}
+        />
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="ShopInformation" component={ShopInformation} />
         <Stack.Screen name="StoreRegister" component={StoreRegister} />

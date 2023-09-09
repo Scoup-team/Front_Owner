@@ -65,7 +65,6 @@ const StoreRegister = ({ navigation }) => {
         ></TextInput>
       </View>
       <View style={[styles.lineStyle, { marginBottom: 32 }]}></View>
-
       <ClickButton text={"저  장"} />
     </ScrollView>
   );

@@ -9,7 +9,6 @@ import {
   TextInput,
   Image,
 } from "react-native";
-import SubMenu from "../components/event/SubMenu";
 
 const EventPage = () => {
   const [subMenuOpen, setSubMenuOpen] = useState(false);
@@ -21,21 +20,25 @@ const EventPage = () => {
       <Text style={styles.title}>이벤트/공지</Text>
       <View style={styles.EventSection}>
         <View style={styles.EventComponent}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
+          <View>
             <Text style={styles.date}>2023-06-13</Text>
-            <TouchableOpacity onPress={subMenuClick}>
-              <Text style={styles.subMenu}>...</Text>
-            </TouchableOpacity>
           </View>
           <Text style={styles.content}>
             오늘 개인사정으로로 휴무입니다. 다음주부터 정상적으로 운영합니다.
           </Text>
-          {subMenuOpen ? <SubMenu /> : null}
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+            }}
+          >
+            <TouchableOpacity style={styles.Btn}>
+              <Text style={{ ...styles.text, color: "#ffffff" }}>수정</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.Btn}>
+              <Text style={{ ...styles.text, color: "#ffffff" }}>삭제</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </View>
@@ -68,7 +71,7 @@ const styles = StyleSheet.create({
   EventComponent: {
     flexDirection: "column",
     width: 353,
-    height: 141,
+    minHeight: 151,
     justifyContent: "center",
     borderRadius: 8,
     backgroundColor: "#6E85B7",
@@ -78,7 +81,7 @@ const styles = StyleSheet.create({
   date: {
     color: "#ffffff",
     textAlign: "left",
-    fontSize: 10,
+    fontSize: 14,
     fontStyle: "normal",
     fontWeight: "600",
     letterSpacing: 0.2,
@@ -101,5 +104,17 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     marginRight: 15,
     marginTop: 5,
+  },
+  Btn: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 60,
+    height: 30,
+    borderRadius: 7,
+    borderWidth: 1.5,
+    borderColor: "#000000",
+    backgroundColor: "#1D2D4F",
+    justifyContent: "center",
+    color: "#FFFFFF",
   },
 });

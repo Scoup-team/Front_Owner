@@ -11,6 +11,7 @@ import {
   Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import writing from "../assets/writing.png";
 
 import { getEvent, deleteEvent } from "../api/event";
 
@@ -41,6 +42,8 @@ const EventPage = () => {
   const deleteEventData = async (eventId) => {
     try {
       const deleteData = await deleteEvent(eventId);
+      Alert.alert("이벤트/공지 삭제에 성공했습니다.");
+      getEventData();
     } catch (err) {
       console.log(err);
     }
@@ -52,13 +55,23 @@ const EventPage = () => {
 
   const handleDeleteButtonPress = (eventId) => {
     deleteEventData(eventId);
-    Alert.alert("이벤트/공지 삭제에 성공했습니다.");
-    getEventData();
   };
 
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>이벤트/공지</Text>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "flex-end",
+          justifyContent: "flex-end",
+        }}
+      >
+        <Pressable onPress={() => navigation.navigate("WritingEventPage")}>
+          <Image source={writing} style={styles.writing} />
+        </Pressable>
+      </View>
+
       <View style={styles.EventSection}>
         {eventData && eventData.length > 0 ? (
           eventData.map((data) => (
@@ -169,5 +182,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#1D2D4F",
     justifyContent: "center",
     color: "#FFFFFF",
+  },
+  writing: {
+    width: 25,
+    height: 25,
   },
 });

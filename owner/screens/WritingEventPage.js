@@ -9,8 +9,11 @@ import {
   TextInput,
   Image,
 } from "react-native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 
 const WritingEventPage = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>이벤트/공지</Text>
@@ -22,7 +25,10 @@ const WritingEventPage = () => {
         ></TextInput>
       </View>
       <View style={styles.btnbox}>
-        <TouchableOpacity style={styles.cancleBtn}>
+        <TouchableOpacity
+          style={styles.cancleBtn}
+          onPress={() => navigation.pop()}
+        >
           <Text style={styles.text}>취 소</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.submitBtn}>

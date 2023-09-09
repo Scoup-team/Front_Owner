@@ -29,15 +29,15 @@ const MainPage = ({ navigation }) => {
       </View>
       <View style={styles.section}>
         <Text style={styles.topMenu}>내 가게 관리하기</Text>
-        <Pressable onPress={() => navigation.navigate("CouponPage")}>
+        <Pressable onPress={() => navigation.navigate("ShopInformation")}>
           <Image source={bluearrow} style={styles.arrow} />
         </Pressable>
       </View>
       <View style={styles.section}>
         <Text style={styles.topMenu}>이벤트/공지 관리</Text>
-        {/* <Pressable onPress={() => navigation.navigate("CouponPage")}> */}
-        <Image source={bluearrow} style={styles.arrow} />
-        {/* </Pressable> */}
+        <Pressable onPress={() => navigation.navigate("EventPage")}>
+          <Image source={bluearrow} style={styles.arrow} />
+        </Pressable>
       </View>
       <View style={styles.lineStyle}></View>
 

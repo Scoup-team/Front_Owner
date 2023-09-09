@@ -19,7 +19,7 @@ export default function App() {
     <NavigationContainer style={styles.container}>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName="StoreRegister"
+        initialRouteName="MainPage"
       >
         <Stack.Screen name="MainPage" component={MainPage} />
         <Stack.Screen name="FindPw" component={FindPw} />

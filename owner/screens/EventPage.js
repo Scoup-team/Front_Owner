@@ -16,10 +16,8 @@ import { getEvent } from "../api/event";
 const EventPage = () => {
   const navigation = useNavigation();
 
-  const eventId = 123;
   const cafeId = 1;
-  const content =
-    "오늘 개인사정으로 휴무입니다. 다음주부터 정상적으로 운영합니다.";
+
   const [eventData, setEventData] = useState([]);
 
   useEffect(() => {
@@ -34,13 +32,14 @@ const EventPage = () => {
         createdAt: data.createdAt.split("T")[0],
       }));
       setEventData(formattedData);
-      console.log("eventData", eventData);
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleEditButtonPress = () => {
+  const handleEditButtonPress = (eventId, content) => {
+    console.log("수정 눌림");
+    console.log(eventId, content);
     navigation.navigate("EditingEventPage", { eventId, content });
   };
 
@@ -48,30 +47,36 @@ const EventPage = () => {
     <View style={styles.wrapper}>
       <Text style={styles.title}>이벤트/공지</Text>
       <View style={styles.EventSection}>
-        <View style={styles.EventComponent}>
-          <View>
-            <Text style={styles.date}>2023-06-13</Text>
-          </View>
-          <Text style={styles.content}>
-            오늘 개인사정으로로 휴무입니다. 다음주부터 정상적으로 운영합니다.
-          </Text>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-            }}
-          >
-            <TouchableOpacity
-              style={styles.Btn}
-              onPress={handleEditButtonPress}
-            >
-              <Text style={{ ...styles.text, color: "#ffffff" }}>수정</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.Btn}>
-              <Text style={{ ...styles.text, color: "#ffffff" }}>삭제</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        {eventData && eventData.length > 0 ? (
+          eventData.map((data) => (
+            <View style={styles.EventComponent} key={data.eventId}>
+              <View>
+                <Text style={styles.date}>{data.createdAt}</Text>
+              </View>
+              <Text style={styles.content}>{data.content}</Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-evenly",
+                }}
+              >
+                <TouchableOpacity
+                  style={styles.Btn}
+                  onPress={() =>
+                    handleEditButtonPress(data.eventId, data.content)
+                  }
+                >
+                  <Text style={{ ...styles.text, color: "#ffffff" }}>수정</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.Btn}>
+                  <Text style={{ ...styles.text, color: "#ffffff" }}>삭제</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ))
+        ) : (
+          <View />
+        )}
       </View>
     </View>
   );

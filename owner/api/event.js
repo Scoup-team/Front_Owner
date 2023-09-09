@@ -9,7 +9,6 @@ export const getEvent = async (cafeId) => {
       },
     };
     const res = await client.get(`admin/mypage/event`, config);
-    console.log("조회 성공");
     return res.data;
   } catch (err) {
     throw err;

@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,8 +10,25 @@ import {
   ImageBackground,
   Image,
 } from "react-native";
+import { getShopInfo } from "../api/shop";
 
 const ShopInformation = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    try {
+      const shopData = await getShopInfo();
+      setData(shopData);
+      console.log("data", data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>내 가게 관리하기</Text>

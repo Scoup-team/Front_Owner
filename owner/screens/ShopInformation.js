@@ -22,8 +22,8 @@ const ShopInformation = () => {
   const getData = async () => {
     try {
       const shopData = await getShopInfo();
-      setData(shopData);
-      console.log("data", data);
+      setData(shopData.data[0]);
+      console.log(data);
     } catch (err) {
       console.log(err);
     }
@@ -40,21 +40,19 @@ const ShopInformation = () => {
       <View style={styles.informationSection}>
         <View style={styles.information}>
           <Text style={styles.infoTitle}>가게명</Text>
-          <Text style={styles.infoContent}>카페코지 목동신월점</Text>
+          <Text style={styles.infoContent}>{data.shopName}</Text>
         </View>
         <View style={styles.information}>
           <Text style={styles.infoTitle}>전화번호</Text>
-          <Text style={styles.infoContent}>070-4606-9858</Text>
+          <Text style={styles.infoContent}>{data.shopBranch}</Text>
         </View>
         <View style={styles.information}>
           <Text style={styles.infoTitle}>가게주소</Text>
-          <Text style={styles.infoContent}>
-            서울 양천구 남부순환로83길 17 105동 상가 카페코지
-          </Text>
+          <Text style={styles.infoContent}>{data.shopAddress}</Text>
         </View>
         <View style={styles.information}>
           <Text style={styles.infoTitle}>사업자 번호</Text>
-          <Text style={styles.infoContent}>648-87-01423</Text>
+          <Text style={styles.infoContent}>{data.shopBranch}</Text>
         </View>
         <View style={styles.information}>
           <Text style={styles.infoTitle}>영업 시간</Text>

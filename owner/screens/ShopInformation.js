@@ -22,7 +22,7 @@ const ShopInformation = () => {
   const getData = async () => {
     try {
       const shopData = await getShopInfo();
-      setData(shopData.data[0]);
+      setData(shopData.data);
       console.log(data);
     } catch (err) {
       console.log(err);
@@ -44,7 +44,7 @@ const ShopInformation = () => {
         </View>
         <View style={styles.information}>
           <Text style={styles.infoTitle}>전화번호</Text>
-          <Text style={styles.infoContent}>{data.shopBranch}</Text>
+          <Text style={styles.infoContent}>{data.phoneNumber}</Text>
         </View>
         <View style={styles.information}>
           <Text style={styles.infoTitle}>가게주소</Text>
@@ -52,11 +52,11 @@ const ShopInformation = () => {
         </View>
         <View style={styles.information}>
           <Text style={styles.infoTitle}>사업자 번호</Text>
-          <Text style={styles.infoContent}>{data.shopBranch}</Text>
+          <Text style={styles.infoContent}>{data.licenseeNumber}</Text>
         </View>
         <View style={styles.information}>
           <Text style={styles.infoTitle}>영업 시간</Text>
-          <Text style={styles.infoContent}>매일 09:00 - 22:00</Text>
+          <Text style={styles.infoContent}>{data.runningTime}</Text>
         </View>
       </View>
       <TouchableOpacity style={styles.submitBtn}>

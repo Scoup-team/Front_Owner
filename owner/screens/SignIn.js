@@ -8,7 +8,17 @@ const SignIn = ({ navigation }) => {
   const [userId, setUserId] = useState("");
   const [userPw, setUserPw] = useState("");
 
-  const Login = () => {};
+  const Login = async () => {
+    try {
+      const response = await loginToken(userId, userPw);
+      if (response && response.status / 100 == 2) {
+        console.log("Login_로그인 성공");
+        navigation.navigate("Home");
+      }
+    } catch (error) {
+      console.log("로그인 오류: ", error);
+    }
+  };
 
   return (
     <View>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Text, TextInput, View, Button, Image, StyleSheet } from "react-native";
 import ClickButton from "../components/ClickButton";
 import logo from "../assets/logo.png";
+import { loginToken } from "../api/userInfo";
 // 로고는 추후에 수정 예정
 
 const SignIn = ({ navigation }) => {
@@ -13,7 +14,7 @@ const SignIn = ({ navigation }) => {
       const response = await loginToken(userId, userPw);
       if (response && response.status / 100 == 2) {
         console.log("Login_로그인 성공");
-        navigation.navigate("Home");
+        navigation.navigate("MainPage");
       }
     } catch (error) {
       console.log("로그인 오류: ", error);

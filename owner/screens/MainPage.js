@@ -15,7 +15,7 @@ const MainPage = ({ navigation }) => {
   const CouponPageClick = () => {
     navigation;
   };
-  
+
   return (
     <View>
       <Text style={styles.title}>마이 페이지</Text>

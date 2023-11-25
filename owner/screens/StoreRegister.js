@@ -14,13 +14,6 @@ import React, { useState } from "react";
 const StoreRegister = ({ navigation, route }) => {
 
   const shopData = route.params ? route.params.shopData : null;
-  
-  // const [shopName, setShopName] = useState("");
-  // const [phoneNumber, setPhoneNumber] = useState("");
-  // const [licenseeNumber, setLicenseeNumber] = useState("");
-  // const [shopAddress, setShopAddress] = useState("");
-  // const [runningTime, setRunningTime] = useState("");
-  // const [shopImageUrl, setShopImageUrl] = useState("test");
 
   const [shopName, setShopName] = useState(shopData ? shopData.shopName : "");
   const [phoneNumber, setPhoneNumber] = useState(shopData ? shopData.phoneNumber : "");
@@ -29,32 +22,32 @@ const StoreRegister = ({ navigation, route }) => {
   const [runningTime, setRunningTime] = useState(shopData ? shopData.runningTime : "");
   const [shopImageUrl, setShopImageUrl] = useState(shopData ? shopData.shopImageUrl : "test");
 
-  const saveStore = async() => {
-    try{
+  const saveStore = async () => {
+    try {
       const response = await registerStore(shopName, phoneNumber, licenseeNumber, shopAddress, runningTime, shopImageUrl);
       console.log("response: ", response);
-      if(response?.status /100 ==2 ){
+      if (response?.status / 100 == 2) {
         console.log("가게 등록 성공");
         navigation.navigate("ShopInformation");
-      } else{
+      } else {
         console.log("가게 등록 실패");
       }
-    } catch(error) {
+    } catch (error) {
       console.log("가게 등록 오류: ", error);
     }
   }
 
-  const modifyStore = async() => {
-    try{
+  const modifyStore = async () => {
+    try {
       const response = await patchStore(shopName, phoneNumber, licenseeNumber, shopAddress, runningTime, shopImageUrl);
       console.log("response: ", response);
-      if(response?.status /100 ==2 ){
+      if (response?.status / 100 == 2) {
         console.log("가게 수정 성공");
         navigation.navigate("ShopInformation");
-      } else{
+      } else {
         console.log("가게 등록 실패");
       }
-    } catch(error) {
+    } catch (error) {
       console.log("가게 등록 오류: ", error);
     }
   }
@@ -125,7 +118,7 @@ const StoreRegister = ({ navigation, route }) => {
       </View>
       <View style={[styles.lineStyle, { marginBottom: 32 }]}></View>
       {/* <ClickButton text={"저  장"} onPress={saveStore} /> */}
-      <ClickButton text={"저  장"} onPress={shopData?modifyStore:saveStore} />
+      <ClickButton text={"저  장"} onPress={shopData ? modifyStore : saveStore} />
     </ScrollView>
   );
 };

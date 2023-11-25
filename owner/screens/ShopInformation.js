@@ -13,31 +13,29 @@ import {
 import { deleteStore, showStore } from "../api/store";
 import { useIsFocused } from "@react-navigation/native";
 
-const ShopInformation = ({navigation}) => {
+const ShopInformation = ({ navigation }) => {
 
   const [myShop, setMyShop] = useState([])
   const isFocused = useIsFocused();
 
-  useEffect(()=>{
+  useEffect(() => {
     checkAndShowStore();
-  },[isFocused])
+  }, [isFocused])
 
-  const checkAndShowStore  = async() => {
-    try{
+  const checkAndShowStore = async () => {
+    try {
       const response = await showStore()
-      
       const shopData = response?.data;
       if (!shopData) {
         navigation.navigate("StoreRegister");
-      } else{
+      } else {
         setMyShop(shopData);
         console.log("StoreShow: ", response?.data);
       }
-      
 
-    } catch(error){
-      console.log("등록된 가게가 존재하지 않습니다.")
-      // navigation.navigate("StoreRegister");
+
+    } catch (error) {
+      console.log("checkAndShowStore: ", error);
     }
   }
 
@@ -46,12 +44,16 @@ const ShopInformation = ({navigation}) => {
     try {
       const response = await deleteStore();
       console.log(response);
-      navigation.navigate("MainPage")
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'MainPage' }],
+      });
+      navigation.navigate("MainPage");
     } catch (error) {
       console.log("error: ", error);
     }
   };
-  
+
 
 
   return (
@@ -74,7 +76,7 @@ const ShopInformation = ({navigation}) => {
         <View style={styles.information}>
           <Text style={styles.infoTitle}>가게주소</Text>
           <Text style={styles.infoContent}>
-          {myShop?.shopAddress}
+            {myShop?.shopAddress}
           </Text>
         </View>
         <View style={styles.information}>
@@ -86,7 +88,7 @@ const ShopInformation = ({navigation}) => {
           <Text style={styles.infoContent}>{myShop?.runningTime}</Text>
         </View>
       </View>
-      <Pressable style={styles.submitBtn} onPress={() => navigation.navigate("StoreRegister", {shopData: myShop})}>
+      <Pressable style={styles.submitBtn} onPress={() => navigation.navigate("StoreRegister", { shopData: myShop })}>
         <Text style={{ ...styles.text, color: "#ffffff" }}>수정하기</Text>
       </Pressable>
       <Pressable style={styles.submitBtn} onPress={StoreDelete}>
@@ -149,6 +151,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#1D2D4F",
     justifyContent: "center",
     color: "#FFFFFF",
-    marginBottom:10
+    marginBottom: 10
   },
 });

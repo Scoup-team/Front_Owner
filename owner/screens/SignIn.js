@@ -14,7 +14,10 @@ const SignIn = ({ navigation }) => {
       const response = await loginToken(userId, userPw);
       if (response && response.status / 100 == 2) {
         console.log("Login_로그인 성공");
-        navigation.navigate("MainPage");
+
+        // console.log("response: ", response);
+        const nickname = response.data.data.nickname;
+        navigation.navigate("MainPage", { nickname });
       }
     } catch (error) {
       console.log("로그인 오류: ", error);

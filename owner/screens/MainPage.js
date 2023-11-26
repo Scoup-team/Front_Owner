@@ -11,17 +11,21 @@ import {
 import bluearrow from "../assets/bluearrow.png";
 import coffee from "../assets/coffee.png";
 
-const MainPage = ({ navigation }) => {
+const MainPage = ({ navigation, route }) => {
   const CouponPageClick = () => {
     navigation;
   };
+
+  const { nickname } = route.params;
+
+  console.log(nickname);
 
   return (
     <View>
       <Text style={styles.title}>마이 페이지</Text>
       <View style={styles.usersection}>
         <Image source={coffee} style={styles.coffee} />
-        <Text style={styles.name}>고은서</Text>
+        <Text style={styles.name}>{nickname}</Text>
         <Text style={styles.nickname}> 사장님</Text>
       </View>
       <View style={styles.section}>

@@ -8,8 +8,50 @@ import {
 } from "react-native";
 import store from "../assets/store.png";
 import ClickButton from "../components/ClickButton";
+import { registerStore, patchStore } from "../api/store";
+import React, { useState } from "react";
 
-const StoreRegister = ({ navigation }) => {
+const StoreRegister = ({ navigation, route }) => {
+
+  const shopData = route.params ? route.params.shopData : null;
+
+  const [shopName, setShopName] = useState(shopData ? shopData.shopName : "");
+  const [phoneNumber, setPhoneNumber] = useState(shopData ? shopData.phoneNumber : "");
+  const [licenseeNumber, setLicenseeNumber] = useState(shopData ? shopData.licenseeNumber : "");
+  const [shopAddress, setShopAddress] = useState(shopData ? shopData.shopAddress : "");
+  const [runningTime, setRunningTime] = useState(shopData ? shopData.runningTime : "");
+  const [shopImageUrl, setShopImageUrl] = useState(shopData ? shopData.shopImageUrl : "test");
+
+  const saveStore = async () => {
+    try {
+      const response = await registerStore(shopName, phoneNumber, licenseeNumber, shopAddress, runningTime, shopImageUrl);
+      console.log("response: ", response);
+      if (response?.status / 100 == 2) {
+        console.log("가게 등록 성공");
+        navigation.navigate("ShopInformation");
+      } else {
+        console.log("가게 등록 실패");
+      }
+    } catch (error) {
+      console.log("가게 등록 오류: ", error);
+    }
+  }
+
+  const modifyStore = async () => {
+    try {
+      const response = await patchStore(shopName, phoneNumber, licenseeNumber, shopAddress, runningTime, shopImageUrl);
+      console.log("response: ", response);
+      if (response?.status / 100 == 2) {
+        console.log("가게 수정 성공");
+        navigation.navigate("ShopInformation");
+      } else {
+        console.log("가게 등록 실패");
+      }
+    } catch (error) {
+      console.log("가게 등록 오류: ", error);
+    }
+  }
+
   return (
     <ScrollView>
       <Text style={styles.mainText}>가게 등록</Text>
@@ -19,6 +61,8 @@ const StoreRegister = ({ navigation }) => {
         <TextInput
           style={[styles.inputText, { width: 231, height: 42 }]}
           placeholder="카페코지 이대점"
+          value={shopName}
+          onChangeText={setShopName}
         ></TextInput>
       </View>
 
@@ -35,6 +79,8 @@ const StoreRegister = ({ navigation }) => {
         <TextInput
           style={[styles.inputText, { width: 231, height: 42 }]}
           placeholder="070-4307-4192"
+          value={phoneNumber}
+          onChangeText={setPhoneNumber}
         ></TextInput>
       </View>
       <View style={styles.lineStyle}></View>
@@ -44,6 +90,8 @@ const StoreRegister = ({ navigation }) => {
         <TextInput
           style={[styles.inputText, { width: 231, height: 90 }]}
           placeholder="서울특별시 서대문구 이화여대길88-19"
+          value={shopAddress}
+          onChangeText={setShopAddress}
         ></TextInput>
       </View>
       <View style={styles.lineStyle}></View>
@@ -53,6 +101,8 @@ const StoreRegister = ({ navigation }) => {
         <TextInput
           style={[styles.inputText, { width: 231, height: 42 }]}
           placeholder="105-86-28928"
+          value={licenseeNumber}
+          onChangeText={setLicenseeNumber}
         ></TextInput>
       </View>
       <View style={styles.lineStyle}></View>
@@ -62,10 +112,13 @@ const StoreRegister = ({ navigation }) => {
         <TextInput
           style={[styles.inputText, { width: 231, height: 92 }]}
           placeholder="주말 오전 11:00~ 오후 8:00&#10;평일 오전 10:00~ 오후 9:00"
+          value={runningTime}
+          onChangeText={setRunningTime}
         ></TextInput>
       </View>
       <View style={[styles.lineStyle, { marginBottom: 32 }]}></View>
-      <ClickButton text={"저  장"} />
+      {/* <ClickButton text={"저  장"} onPress={saveStore} /> */}
+      <ClickButton text={"저  장"} onPress={shopData ? modifyStore : saveStore} />
     </ScrollView>
   );
 };

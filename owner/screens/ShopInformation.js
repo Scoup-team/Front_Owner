@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,8 +10,52 @@ import {
   ImageBackground,
   Image,
 } from "react-native";
+import { deleteStore, showStore } from "../api/store";
+import { useIsFocused } from "@react-navigation/native";
 
-const ShopInformation = () => {
+const ShopInformation = ({ navigation }) => {
+
+  const [myShop, setMyShop] = useState([])
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    checkAndShowStore();
+  }, [isFocused])
+
+  const checkAndShowStore = async () => {
+    try {
+      const response = await showStore()
+      const shopData = response?.data;
+      if (!shopData) {
+        navigation.navigate("StoreRegister");
+      } else {
+        setMyShop(shopData);
+        console.log("StoreShow: ", response?.data);
+      }
+
+
+    } catch (error) {
+      console.log("checkAndShowStore: ", error);
+    }
+  }
+
+
+  const StoreDelete = async () => {
+    try {
+      const response = await deleteStore();
+      console.log(response);
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'MainPage' }],
+      });
+      navigation.navigate("MainPage");
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  };
+
+
+
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>내 가게 관리하기</Text>
@@ -23,30 +67,33 @@ const ShopInformation = () => {
       <View style={styles.informationSection}>
         <View style={styles.information}>
           <Text style={styles.infoTitle}>가게명</Text>
-          <Text style={styles.infoContent}>카페코지 목동신월점</Text>
+          <Text style={styles.infoContent}>{myShop?.shopName}</Text>
         </View>
         <View style={styles.information}>
           <Text style={styles.infoTitle}>전화번호</Text>
-          <Text style={styles.infoContent}>070-4606-9858</Text>
+          <Text style={styles.infoContent}>{myShop?.phoneNumber}</Text>
         </View>
         <View style={styles.information}>
           <Text style={styles.infoTitle}>가게주소</Text>
           <Text style={styles.infoContent}>
-            서울 양천구 남부순환로83길 17 105동 상가 카페코지
+            {myShop?.shopAddress}
           </Text>
         </View>
         <View style={styles.information}>
           <Text style={styles.infoTitle}>사업자 번호</Text>
-          <Text style={styles.infoContent}>648-87-01423</Text>
+          <Text style={styles.infoContent}>{myShop?.licenseeNumber}</Text>
         </View>
         <View style={styles.information}>
           <Text style={styles.infoTitle}>영업 시간</Text>
-          <Text style={styles.infoContent}>매일 09:00 - 22:00</Text>
+          <Text style={styles.infoContent}>{myShop?.runningTime}</Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.submitBtn}>
+      <Pressable style={styles.submitBtn} onPress={() => navigation.navigate("StoreRegister", { shopData: myShop })}>
         <Text style={{ ...styles.text, color: "#ffffff" }}>수정하기</Text>
-      </TouchableOpacity>
+      </Pressable>
+      <Pressable style={styles.submitBtn} onPress={StoreDelete}>
+        <Text style={{ ...styles.text, color: "#ffffff" }}>삭제하기</Text>
+      </Pressable>
     </View>
   );
 };
@@ -104,5 +151,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#1D2D4F",
     justifyContent: "center",
     color: "#FFFFFF",
+    marginBottom: 10
   },
 });

@@ -2,6 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import * as React from "react";
 import { StyleSheet, View, Image } from "react-native";
 import SignUp from "./screens/SignUp";
+import SignIn from "./screens/SignIn";
 import MainPage from "./screens/MainPage";
 import FindPw from "./screens/FindPw";
 import WritingEventPage from "./screens/WritingEventPage";
@@ -20,7 +21,7 @@ export default function App() {
     <NavigationContainer style={styles.container}>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName="MainPage"
+        initialRouteName="SignIn"
       >
         <Stack.Screen name="MainPage" component={MainPage} />
         <Stack.Screen name="FindPw" component={FindPw} />
@@ -32,6 +33,7 @@ export default function App() {
           options={{ unmountOnBlur: true }}
         />
         <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="ShopInformation" component={ShopInformation} />
         <Stack.Screen name="StoreRegister" component={StoreRegister} />
       </Stack.Navigator>
